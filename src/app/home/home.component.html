@@ -1,1 +1,18 @@
-<p>home works!</p>
+<div class="container">
+    <header class="jumbotron">
+      <h3>
+        Profile: <strong>{{ currentUser?.username }}</strong> 
+        <br>
+        Name: <strong>{{ currentUser?.name }}</strong> 
+        <br>
+        Email: <strong>{{ currentUser?.email }}</strong> 
+        <br>
+        Credit: <strong>{{ currentUser?.credit }}</strong> 
+      </h3>
+    </header>
+
+    <li *ngFor="let post of posts; index as i">
+      {{i+1}} {{post?.description}} {{post?.salary}}
+    </li>
+
+</div>

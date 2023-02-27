@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { delay, Observer, of, Subscription } from 'rxjs';
 import { AuthenticationService } from '../_services/auth.service';
 import { GenericDataModel, Token } from '../_models/token.model'; 
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { GenericDataModel, Token } from '../_models/token.model';
 export class LoginComponent implements OnInit {
 
   username: any;
-  password: any;
+  password: any; 
   errorMessage = 'Invalid Credentials';
   successMessage: string | undefined;
   invalidLogin = false;
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
         this.successMessage = 'Login Successful.';
 
         // auto logout
-        this.expirationCounter(this.returnValue.data.expirationTime - new Date().valueOf());
+        // this.expirationCounter(this.returnValue.data.expirationTime - new Date().valueOf());
         this.router.navigate(['./home']);
       }
       else{ 
@@ -51,14 +52,20 @@ export class LoginComponent implements OnInit {
     },
     complete: () => {console.log("complete")}
   };
+  
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService) 
+    private authenticationService: AuthenticationService,
+    private socialAuthService: SocialAuthService) 
     { }
     
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe((user) => {
+      sessionStorage.setItem('token', JSON.stringify(user.idToken)); 
+      this.router.navigate(['./home']);
+    });
   }
 
   handleLogin(): void {

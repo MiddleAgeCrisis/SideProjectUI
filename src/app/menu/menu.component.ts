@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {  
     this.router.events.subscribe(event => { 
       if (event instanceof NavigationEnd) {  
-        this.isLoggedIn = this.authenticationService.isUserLoggedIn();
+        this.isLoggedIn = this.authenticationService.isUserLoggedIn(); 
       }
     });
   }
